@@ -42,13 +42,19 @@ class Sketch {
 
   setupSettings() {
     this.settings = {
-      size: 100,
+      size: Math.min(Math.min(this.vw, this.vh) / 2, 500),
       distance: 2,
+      rotationX: false,
+      rotationY: true,
+      rotationZ: false,
       orthographic: false,
     };
     this.gui = new dat.GUI();
     this.gui.add(this.settings, 'size', 20, 500);
     this.gui.add(this.settings, 'distance', 1, 10);
+    this.gui.add(this.settings, 'rotationX');
+    this.gui.add(this.settings, 'rotationY');
+    this.gui.add(this.settings, 'rotationZ');
     this.gui.add(this.settings, 'orthographic');
   }
 
@@ -120,9 +126,10 @@ class Sketch {
     this.ctx.fillStyle = '#fff';
 
     for (let i = 0; i < this.points.length; i += 1) {
-      let rotated = math.multiply(rotationZ, this.points[i]);
-      rotated = math.multiply(rotationX, rotated);
-      rotated = math.multiply(rotationY, rotated);
+      let rotated = this.points[i];
+      rotated = this.settings.rotationX ? math.multiply(rotationX, rotated) : rotated;
+      rotated = this.settings.rotationY ? math.multiply(rotationY, rotated) : rotated;
+      rotated = this.settings.rotationZ ? math.multiply(rotationZ, rotated) : rotated;
 
       const z = 1 / (this.settings.distance - rotated[2]);
 
