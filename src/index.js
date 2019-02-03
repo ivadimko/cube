@@ -137,13 +137,11 @@ class Sketch {
         [
           [1 / this.settings.distance, 0, 0],
           [0, 1 / this.settings.distance, 0],
-          [0, 0, 1 / this.settings.distance],
         ]
         :
         [
           [z, 0, 0],
           [0, z, 0],
-          [0, 0, z],
         ];
 
       const projected2D = math.multiply(projection, rotated);
